@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 71906384}
-  amount: 20
+  amount: 40
   groundPrefab: {fileID: 1121066348938118, guid: 680fafd85c16f024192891099b1460ee, type: 3}
 --- !u!4 &71906384
 Transform:
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 641077703}
-  amount: 3
+  amount: 10
   diamondPrefab: {fileID: 1957927936394622, guid: 08903edef1bc6f44d80f73e76f9e0811, type: 3}
 --- !u!4 &641077703
 Transform:
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 1243035218}
-  amount: 4
+  amount: 10
   waterPrefab: {fileID: 1121066348938118, guid: 5b3cdc2d8aa4b0947842ce6374c81bc1, type: 3}
 --- !u!1 &1417157047
 GameObject:
@@ -1037,7 +1037,10 @@ MonoBehaviour:
   anim: {fileID: 2109563246}
   speed: 5
   score: 0
-  diamond: 0
+  combo: 0
+  difficultyTime: 0
+  timerForFall: 0
+  increasePoint: 0
 --- !u!95 &2109563246 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95809777293889810, guid: c84b41a4245d5c241bc7ff57b0cca3f4, type: 3}

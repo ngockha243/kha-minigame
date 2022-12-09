@@ -5,7 +5,7 @@ using UnityEngine;
 public class GroundPooler : FastSingleton<GroundPooler>
 {
     [SerializeField] public Transform parent;
-    [SerializeField] private int amount;
+    [SerializeField] public int amount;
     [SerializeField] private GameObject groundPrefab;
     private Queue<GameObject> poolGrounds;
 

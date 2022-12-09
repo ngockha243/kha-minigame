@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameplayManager : FastSingleton<GameplayManager>
 {
     private Vector3 currentEndRoad;
-    private int firstAmountGround = 15;
+    private int firstAmountGround;
     private Queue<GameObject> listGround = new Queue<GameObject>();
     private const float HEIGHT_SPAWN_DIAMOND = 3.5f;
     public bool onSetting;
@@ -15,6 +15,7 @@ public class GameplayManager : FastSingleton<GameplayManager>
     }
     private void OnInit()
     {
+        firstAmountGround = GroundPooler.instance.amount - 5;
         onSetting = true;
         currentEndRoad = Vector3.zero;
         InstantiateFirstPosition();
@@ -105,7 +106,5 @@ public class GameplayManager : FastSingleton<GameplayManager>
         {
             PlayerPrefs.SetInt("BEST_SCORE", score);
         }
-        int diamond = Character.instance.diamond + PlayerPrefs.GetInt("DIAMOND", 0);
-        PlayerPrefs.SetInt("DIAMOND", diamond);
     }
 }

@@ -7,23 +7,34 @@ public class Character : FastSingleton<Character>
     [SerializeField] private Animator anim;
     [SerializeField] private float speed;
     public int score;
-    public int diamond;
+    
 
-    private const float TIME_TO_FALL = 2f;
+    public const float TIME_TO_FALL = 2f;
     private const int NUMBERS_OF_STEP_TO_INCREASE_DIFFICULTY = 50;
     private const float TIME_INCREASE_BY_DIFFICULTY = .1f;
     private const float MIN_TIME_DIFFICULTY = .1f;
     private const float MAX_TIME_DIFFICULTY = .5f;
     private const float RANGE_DETECT = .3f;
+    private const float TIME_COMBO = .5f;
+    private const int INCREASE_POINT = 2;
+    private const float TIMER_INCREASE_POINT = 5f;
 
-    private float difficultyTime;
+    
+    public int combo;
+    public float difficultyTime;
+    public float timerForFall;
+    public int increasePoint;
+    private float timerIncreasePoint;
     private float interpolaForJump;
-    private float timerForFall;
     private Vector3 target;
     private Vector3 start;
     private bool isMoving;
     private bool isLose;
     private int currentAnim;
+    public float GetMaxTime()
+    {
+        return TIME_TO_FALL;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -31,13 +42,15 @@ public class Character : FastSingleton<Character>
     }
     private void OnInit()
     {
+        increasePoint = 1;
+        timerIncreasePoint = 0;
+        combo = 0;
         start = transform.position;
         target = transform.position;
         interpolaForJump = 0f;
         timerForFall = 0f;
         isLose = false;
         score = 0;
-        diamond = 0;
         difficultyTime = 0f;
     }
     private void Update() {
@@ -64,15 +77,7 @@ public class Character : FastSingleton<Character>
             }
             ChangeAnim(AnimatorPlayer.idle);
         }
-        if(score >= NUMBERS_OF_STEP_TO_INCREASE_DIFFICULTY)
-        {
-            difficultyTime = Mathf.Clamp((int)(score / NUMBERS_OF_STEP_TO_INCREASE_DIFFICULTY) 
-                * TIME_INCREASE_BY_DIFFICULTY, MIN_TIME_DIFFICULTY, MAX_TIME_DIFFICULTY);
-        }
-        if(timerForFall > (TIME_TO_FALL - difficultyTime))
-        {
-            Lose();
-        }
+        
     }
     public void MoveLeft()
     {
@@ -83,10 +88,15 @@ public class Character : FastSingleton<Character>
             interpolaForJump = 0f;
             GameplayManager.instance.SpawnGround();
             timerForFall = 0f;
-            score += 1;
+            score += 1 * increasePoint;
             ChangeAnim(AnimatorPlayer.move);
             Invoke(nameof(ResetAnim), .3f);
             transform.eulerAngles = new Vector3(0f, -90f, 0f);
+
+            if(timerForFall < TIME_COMBO)
+            {
+                combo += 1;
+            }
         }
     }
     public void MoveRight()
@@ -98,10 +108,15 @@ public class Character : FastSingleton<Character>
             interpolaForJump = 0f;
             GameplayManager.instance.SpawnGround();
             timerForFall = 0f;
-            score += 1;
+            score += 1 * increasePoint;
             ChangeAnim(AnimatorPlayer.move);
             Invoke(nameof(ResetAnim), .3f);
             transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            
+            if(timerForFall < TIME_COMBO)
+            {
+                combo += 1;
+            }
         }
     }
     // Update is called once per frame
@@ -120,6 +135,33 @@ public class Character : FastSingleton<Character>
         CheckCollide();
         
         CheckOutGround();
+
+        if(score >= NUMBERS_OF_STEP_TO_INCREASE_DIFFICULTY)
+        {
+            difficultyTime = Mathf.Clamp((int)(score / NUMBERS_OF_STEP_TO_INCREASE_DIFFICULTY) 
+                * TIME_INCREASE_BY_DIFFICULTY, MIN_TIME_DIFFICULTY, MAX_TIME_DIFFICULTY);
+        }
+        if(timerForFall > (TIME_TO_FALL - difficultyTime))
+        {
+            Lose();
+        }
+        if(timerForFall > TIME_COMBO)
+        {
+            if(combo > 10)
+            {
+                score += combo;
+            }
+            combo = 0;
+        }
+        timerIncreasePoint -= Time.fixedDeltaTime;
+        if(timerIncreasePoint > 0f)
+        {
+            increasePoint = INCREASE_POINT;
+        }
+        else
+        {
+            increasePoint = 1;
+        }
     }
     private void Move()
     {
@@ -157,7 +199,7 @@ public class Character : FastSingleton<Character>
             if(c.tag == "diamond")
             {
                 DiamondPooler.instance.BackToPool(c.gameObject);
-                diamond += 1;
+                timerIncreasePoint = TIMER_INCREASE_POINT;
             }
             if(c.tag == "water")
             {
