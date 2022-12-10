@@ -1,5 +1,4 @@
-# kha-minigame
-ENDLESS ROAD - 3D GAME
+# NGOC KHA - ENDLESS ROAD - 3D GAME
 <Mini Game at Onechain>
 
 ## Table of contents
