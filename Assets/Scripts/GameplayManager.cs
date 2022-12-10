@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class GameplayManager : FastSingleton<GameplayManager>
 {
-    private Vector3 currentEndRoad;
+    private Vector3 currentEndRoad; // current end of road --> to detect next spawn position
     private int firstAmountGround;
-    private Queue<GameObject> listGround = new Queue<GameObject>();
-    private const float HEIGHT_SPAWN_DIAMOND = 3.5f;
-    public bool onSetting;
+    private const float HEIGHT_SPAWN_DIAMOND = 3.5f;    // height of spawn diamond --> for diamond spawn above ground
+    public bool onSetting;  // for check if game is on setting or not
     void Start()
     {
         OnInit();
     }
+    /// <summary>
+    /// Init all value, spawn amount of ground (< ground pooler) for show ground behind player
+    /// </summary>
     private void OnInit()
     {
-        firstAmountGround = GroundPooler.instance.amount - 5;
         onSetting = true;
         currentEndRoad = Vector3.zero;
-        InstantiateFirstPosition();
+        firstAmountGround = GroundPooler.instance.amount - 5;
+        InstantiateFirstGround();
     }
-    private void InstantiateFirstPosition()
+    private void InstantiateFirstGround()
     {
         for(int i = 0; i < firstAmountGround; i++)
         {
             SpawnGround();
         }
     }
+    /// <summary>
+    /// Random direct for spawn ground (random road)
+    /// </summary>
     private Direct RandomDirect()
     {
         int rd = Random.Range(0, 2);
@@ -36,6 +41,9 @@ public class GameplayManager : FastSingleton<GameplayManager>
         }
         return Direct.Left;
     }
+    /// <summary>
+    /// Get next position to spawn ground by Random direct
+    /// </summary>
     private Vector3 GetNextEndRoadPositionByDirect(Direct direct)
     {
         if(direct == Direct.Right)
@@ -48,6 +56,9 @@ public class GameplayManager : FastSingleton<GameplayManager>
         }
         return currentEndRoad + Vector3.forward;
     }
+    /// <summary>
+    /// Get ground from pool and spawn to end road
+    /// </summary>
     public void SpawnGround()
     {   
         GameObject ground = GroundPooler.instance.SpawnFromPool();
@@ -55,6 +66,20 @@ public class GameplayManager : FastSingleton<GameplayManager>
         ground.transform.SetPositionAndRotation(currentEndRoad, Quaternion.identity);
         Direct direct = RandomDirect();
 
+        // spawn diamond and trap
+        SpawnDiamond();
+
+        SpawnTrap(direct);
+        
+        // set next end road
+        currentEndRoad = GetNextEndRoadPositionByDirect(direct);
+    }
+    /// <summary>
+    /// Every 10 points --> Have 50% to spawn diamond
+    /// Get diamond from pool and spawn above ground
+    /// </summary>
+    private void SpawnDiamond()
+    {
         if(Character.instance.score % 10 == 0 && Character.instance.score != 0)
         {
             int randomDiamond = Random.Range(0, 2);
@@ -65,7 +90,13 @@ public class GameplayManager : FastSingleton<GameplayManager>
                 diamond.transform.SetPositionAndRotation(currentEndRoad + Vector3.up * HEIGHT_SPAWN_DIAMOND, Quaternion.identity);
             }
         }
-
+    }
+    /// <summary>
+    /// Every 5 points --> Have 50% to spawn trap oposite to ground
+    /// Get trap from pool and spawn oposite to ground
+    /// </summary>
+    private void SpawnTrap(Direct direct)
+    {
         if(Character.instance.score % 5 == 0 && Character.instance.score != 0)
         {
             int randomDiamond = Random.Range(0, 2);
@@ -84,9 +115,10 @@ public class GameplayManager : FastSingleton<GameplayManager>
                 }
             }
         }
-        
-        currentEndRoad = GetNextEndRoadPositionByDirect(direct);
     }
+    /// <summary>
+    /// Lose game --> close Play UI --> Save Data --> open Lose UI
+    /// </summary>
     public void OnLose()
     {
         UIManager.instance.CloseUI<Play>();
@@ -95,10 +127,13 @@ public class GameplayManager : FastSingleton<GameplayManager>
     }
     IEnumerator Lose()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         
         UIManager.instance.OpenUI<Lose>();
     }
+    /// <summary>
+    /// Save best score if current score > best score
+    /// </summary>
     private void SaveData()
     {
         int score = Character.instance.score;

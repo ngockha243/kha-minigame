@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class TrapPooler : FastSingleton<TrapPooler>
 {
+    /// <summary>
+    /// Use queue to restore trap pooler
+    /// </summary>
     [SerializeField] public Transform parent;
     [SerializeField] private int amount;
     [SerializeField] private GameObject waterPrefab;
     private Queue<GameObject> poolTraps;
 
+    // Init amount of trap to pool
     protected override void Awake()
     {
         base.Awake();
@@ -20,6 +24,7 @@ public class TrapPooler : FastSingleton<TrapPooler>
             poolTraps.Enqueue(trap);
         }
     }
+    // Spawn trap from pool (Get top of queue and add to end of queue)
     public GameObject SpawnFromPool()
     {
         GameObject trap = poolTraps.Dequeue();

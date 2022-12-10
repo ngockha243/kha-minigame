@@ -7,11 +7,6 @@ using UnityEngine.Events;
 
 public class GameManager : FastSingleton<GameManager>
 {
-    //[SerializeField] UserData userData;
-    //[SerializeField] CSVData csv;
-    //private static GameState gameState = GameState.MainMenu;
-
-    // Start is called before the first frame update
     protected override void Awake()
     {
         //base.Awake();
@@ -26,12 +21,10 @@ public class GameManager : FastSingleton<GameManager>
             Screen.SetResolution(Mathf.RoundToInt(ratio * (float)maxScreenHeight), maxScreenHeight, true);
         }
 
-        //csv.OnInit();
-        //userData?.OnInitData();
-
-        //ChangeState(GameState.MainMenu);
+        // open main menu UI when start game
         UIManager.instance.OpenUI<MainMenu>();
     }
+    // reload scene when press home button
     public void Home()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

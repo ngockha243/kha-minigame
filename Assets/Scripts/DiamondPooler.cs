@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class DiamondPooler : FastSingleton<DiamondPooler>
 {
+    /// <summary>
+    /// Use Stack to restore diamond pooler
+    /// </summary>
     [SerializeField] public Transform parent;
     [SerializeField] private int amount;
     [SerializeField] private GameObject diamondPrefab;
     private Stack<GameObject> poolDiamonds;
 
+    // Init amount of diamond to pool
     protected override void Awake()
     {
         base.Awake();
@@ -20,10 +24,12 @@ public class DiamondPooler : FastSingleton<DiamondPooler>
             poolDiamonds.Push(diamond);
         }
     }
+    // Spawn diamond from pool
     public GameObject SpawnFromPool()
     {
         return poolDiamonds.Pop();
     }
+    // return diamond to pool
     public void BackToPool(GameObject ground)
     {
         poolDiamonds.Push(ground);

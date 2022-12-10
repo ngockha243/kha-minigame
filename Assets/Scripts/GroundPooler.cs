@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class GroundPooler : FastSingleton<GroundPooler>
 {
+    /// <summary>
+    /// Use queue to restore ground pooler
+    /// </summary>
     [SerializeField] public Transform parent;
     [SerializeField] public int amount;
     [SerializeField] private GameObject groundPrefab;
     private Queue<GameObject> poolGrounds;
 
+    // Init amount of ground to pool
     protected override void Awake()
     {
         base.Awake();
@@ -20,6 +24,7 @@ public class GroundPooler : FastSingleton<GroundPooler>
             poolGrounds.Enqueue(ground);
         }
     }
+    // Spawn ground from pool (Get top of queue and add to end of queue)
     public GameObject SpawnFromPool()
     {
         GameObject ground = poolGrounds.Dequeue();
