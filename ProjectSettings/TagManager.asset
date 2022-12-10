@@ -8,6 +8,7 @@ TagManager:
   - push
   - winPos
   - diamond
+  - water
   layers:
   - Default
   - TransparentFX
