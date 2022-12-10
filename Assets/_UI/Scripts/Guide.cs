@@ -7,6 +7,10 @@ public class Guide : UICanvas
 {
     public void Play()
     {
+        
+        // play sound
+        SoundManager.instance.PlaySound(SoundType.click);
+        
         UIManager.instance.OpenUI<Play>();
         GameplayManager.instance.onSetting = false;
         Close();

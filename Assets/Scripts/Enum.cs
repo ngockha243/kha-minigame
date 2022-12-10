@@ -12,3 +12,10 @@ public enum AnimatorPlayer
     move,
     fall,
 }
+public enum SoundType
+{
+    click = 0,
+    jump,
+    collect_diamond,
+    lose,
+}

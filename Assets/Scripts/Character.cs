@@ -11,8 +11,8 @@ public class Character : FastSingleton<Character>
     private const int NUMBERS_OF_STEP_TO_INCREASE_DIFFICULTY = 50;  // every 50 points --> increase difficulty by decrease
                                                                     // time to fall
     private const float TIME_INCREASE_BY_DIFFICULTY = .1f;  // time decrease each 50 points
-    private const float MIN_TIME_DIFFICULTY = .1f;  // min time decrease
-    private const float MAX_TIME_DIFFICULTY = .5f;  // max time decrease
+    private const float MIN_TIME_DIFFICULTY = .1f;  // min time decrease (fall time = max time - min difficulty time = 1.9s after 50 points)
+    private const float MAX_TIME_DIFFICULTY = 1.7f;  // max time decrease (fall time = max time - max difficulty time = 0.3s)
     private const float RANGE_DETECT = .3f;     // range detect ground, diamond, trap
     private const float TIME_COMBO = .5f;   // if time of tap screen < 0.5s --> increase combo
     private const int INCREASE_POINT = 2;   // if player eat diamond --> point per step multiply to increase point
@@ -192,6 +192,9 @@ public class Character : FastSingleton<Character>
             {
                 combo += 1;
             }
+            
+            // play sound
+            SoundManager.instance.PlaySound(SoundType.jump);
         }
     }
     /// <summary>
@@ -225,6 +228,9 @@ public class Character : FastSingleton<Character>
             {
                 combo += 1;
             }
+
+            // play sound
+            SoundManager.instance.PlaySound(SoundType.jump);
         }
     }
     /// <summary>
@@ -254,6 +260,9 @@ public class Character : FastSingleton<Character>
                 // set time increase point and return diamond to pool
                 DiamondPooler.instance.BackToPool(c.gameObject);
                 timerIncreasePoint = TIMER_INCREASE_POINT;
+
+                // play sound
+                SoundManager.instance.PlaySound(SoundType.collect_diamond);
             }
             if(c.tag == "water")
             {

@@ -11,11 +11,18 @@ public class MainMenu : UICanvas
     }
     public void Play()
     {
+        
+        // play sound
+        SoundManager.instance.PlaySound(SoundType.click);
+
         UIManager.instance.OpenUI<Guide>();
         Close();
     }
     public void Quit()
     {
+        // play sound
+        SoundManager.instance.PlaySound(SoundType.click);
+        
         Application.Quit();
     }
 }

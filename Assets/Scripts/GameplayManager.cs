@@ -19,7 +19,7 @@ public class GameplayManager : FastSingleton<GameplayManager>
     {
         onSetting = true;
         currentEndRoad = Vector3.zero;
-        firstAmountGround = GroundPooler.instance.amount - 5;
+        firstAmountGround = GroundPooler.instance.amount - 8;
         InstantiateFirstGround();
     }
     private void InstantiateFirstGround()
