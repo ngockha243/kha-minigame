@@ -80,7 +80,7 @@ public class GameplayManager : FastSingleton<GameplayManager>
     /// </summary>
     private void SpawnDiamond()
     {
-        if(Character.instance.score % 10 == 0 && Character.instance.score != 0)
+        if(Character.instance.Score % 10 == 0 && Character.instance.Score != 0)
         {
             int randomDiamond = Random.Range(0, 2);
             if(randomDiamond == 1)
@@ -97,7 +97,7 @@ public class GameplayManager : FastSingleton<GameplayManager>
     /// </summary>
     private void SpawnTrap(Direct direct)
     {
-        if(Character.instance.score % 5 == 0 && Character.instance.score != 0)
+        if(Character.instance.Score % 5 == 0 && Character.instance.Score != 0)
         {
             int randomDiamond = Random.Range(0, 2);
             if(randomDiamond == 1)
@@ -136,7 +136,7 @@ public class GameplayManager : FastSingleton<GameplayManager>
     /// </summary>
     private void SaveData()
     {
-        int score = Character.instance.score;
+        int score = Character.instance.Score;
         if(score > PlayerPrefs.GetInt("BEST_SCORE", 0))
         {
             PlayerPrefs.SetInt("BEST_SCORE", score);

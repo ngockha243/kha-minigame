@@ -15,17 +15,17 @@ public class Play : UICanvas
     [SerializeField] private GameObject increase;
     private void FixedUpdate() {
         // Update score text
-        scoreText.text = "Your score: " + Character.instance.score;
+        scoreText.text = "Your score: " + Character.instance.Score;
 
         // Show fall time
         // max time = time fall - difficulty time
-        float maxTime = Character.instance.GetMaxTime() - Character.instance.difficultyTime;
-        float timeShow = Mathf.Clamp(Character.instance.timerForFall, 0f, maxTime);
+        float maxTime = Character.instance.GetMaxTime() - Character.instance.DifficultyTime;
+        float timeShow = Mathf.Clamp(Character.instance.TimerForFall, 0f, maxTime);
 
         timeSlider.value = (maxTime - timeShow)/maxTime;
 
         // Show combo: if combo >= 10 --> show combo
-        int numCombo = Character.instance.combo;
+        int numCombo = Character.instance.Combo;
         if(numCombo >= 10)
         {
             comboText.text = numCombo.ToString();
@@ -37,10 +37,10 @@ public class Play : UICanvas
         }
 
         // Show time increase point: if increase point != 1 --> Show timer and show label
-        if(Character.instance.increasePoint > 1)
+        if(Character.instance.IncreasePoint > 1)
         {
             // show timer
-            float timeIncrease = Character.instance.timerIncreasePoint;
+            float timeIncrease = Character.instance.TimerIncreasePoint;
             float maxTimeIncrease = Character.instance.GetTimeIncrease();
             increaseSlider.value = timeIncrease / maxTimeIncrease;
 

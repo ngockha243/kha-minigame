@@ -19,12 +19,35 @@ public class Character : FastSingleton<Character>
     private const float TIMER_INCREASE_POINT = 5f;  // if player eat diamond --> have 5s to increase point
     private const float FALL_SPEED = 10f;    // fall speed when player lose
     
-    public int score;
-    public int combo;
-    public float difficultyTime;    // total time decrease of difficulty
-    public float timerForFall;  // timer check if player not move --> lose
-    public int increasePoint;   // increase point when player eat diamond
-    public float timerIncreasePoint;    // timer for increase point when player eat diamond
+    private int score;
+    public int Score{
+        get{ return score; }
+    }
+    private int combo;
+    public int Combo
+    {
+        get{ return combo; }
+    }
+    private float difficultyTime;    // total time decrease of difficulty
+    public float DifficultyTime
+    {
+        get{ return difficultyTime; }
+    }
+    private float timerForFall;  // timer check if player not move --> lose
+    public float TimerForFall
+    {
+        get{ return timerForFall; }
+    }
+    private int increasePoint;   // increase point when player eat diamond
+    public float IncreasePoint
+    {
+        get{ return increasePoint; }
+    }
+    private float timerIncreasePoint;    // timer for increase point when player eat diamond
+    public float TimerIncreasePoint
+    {
+        get{ return timerIncreasePoint; }
+    }
 
     private float interpolaForJump; // interpolate for player jump
     // start, end for player move

@@ -14,7 +14,7 @@ public class Lose : UICanvas
         SoundManager.instance.PlaySound(SoundType.lose);
 
         bestScoreText.text = "Best Score: " + PlayerPrefs.GetInt("BEST_SCORE", 0);
-        yourScoreText.text = "Your Score: " + Character.instance.score;
+        yourScoreText.text = "Your Score: " + Character.instance.Score;
     }
     public void Home()
     {
